@@ -1,0 +1,103 @@
+1. Write statements that include the header files fstream, string, and iomanip in this program.
+Proceed through all the steps in this activity by clicking on the Next Step button below after completing each step.
+
+2. Write statements that declare inFile to be an ifstream variable and outFile to be an ofstream variable.
+
+3. The program will read data from the file inData.txt and write output to the file outData.txt.
+
+Write statements to:
+
+Open both of these files
+Associate inFile with inData.txt
+Associate outFile with outData.txt
+
+4. Suppose that the file inData.txt contains the following data:
+
+Giselle Robinson Accounting
+5600 5 30
+450 9
+75 1.5
+
+The first line contains a person’s first name, last name, and the department the person works in.
+
+In the second line, the first number represents the monthly gross salary, the bonus (as a percent), and the taxes (as a percent).
+
+The third line contains the distance traveled and the traveling time.
+
+The fourth line contains the number of coffee cups sold and the cost of each coffee cup.
+
+Write statements so that after the program executes, the contents of the file outData.txt are as shown below. If necessary, declare additional variables. Your statements should be general enough so that if the content of the input file changes and the program is run again (without editing and recompiling), it outputs the appropriate results.
+
+Name: Giselle Robinson, Department: Accounting
+Monthly Gross Salary: $5600.00, Monthly Bonus: 5.00%, Taxes: 30.00%
+Paycheck: $4116.00
+
+Distance Traveled: 450.00 miles, Traveling Time: 9.00 hours
+Average Speed: 50.00 miles per hour
+
+Number of Coffee Cups Sold: 75, Cost: $1.50 per cup
+Sales Amount = $112.50
+
+5. Write statements that close the input and output files.
+
+
+
+ANSWER:
+
+
+ #include <iostream>
+    #include <fstream>
+    #include <string>
+    #include <iomanip>
+
+    using namespace std;
+
+    int main()
+    {
+        string firstName, lastName, department;
+        double monthlyGrossSalary, bonusPercent, taxPercent, paycheck,
+        travelDistance, travelTime, averageSpeed;
+        int coffeeCupsSold; double costOfCupOfCoffee, coffeeSalesAmount;
+
+        ifstream inFile;
+        ofstream outFile;
+
+        outFile.open("outData.txt");
+        inFile.open("inData.txt");
+        if (!inFile)
+        {
+            cout << "Sorry, could not open file!\n";
+            system("pause");
+            return 1;
+        }
+
+        outFile << fixed << showpoint << setprecision(2);
+
+        while (!inFile.eof())
+        {
+            //input
+            inFile >> firstName >> lastName >> department >> monthlyGrossSalary         
+            >> bonusPercent >> taxPercent >> travelDistance >> travelTime      
+            >> coffeeCupsSold >> costOfCupOfCoffee;
+
+            //process
+            paycheck = monthlyGrossSalary - monthlyGrossSalary * (taxPercent * 0.01); paycheck = paycheck + paycheck * (bonusPercent * 0.01);
+            averageSpeed = (travelDistance / travelTime);
+            coffeeSalesAmount = (coffeeCupsSold * costOfCupOfCoffee);
+
+            //output
+            outFile << "Name: " << firstName << " " << lastName << "," << " " << "Department: " << department << '\n'
+            << "Monthly Gross Salary: " << "$" << monthlyGrossSalary << ", " << "Monthly Bonus: " << bonusPercent << "%, " << "Taxes: " << taxPercent << "%" << '\n'
+            << "Paycheck: " << "$" << paycheck << '\n' << '\n'
+            << "Distance Traveled: " << travelDistance << " miles, " << "Traveling Time: " << travelTime << " hours" << '\n'
+            << "Average Speed: " << averageSpeed << " miles per hour" << '\n' << '\n'
+            << "Number of Coffee Cups Sold: " << coffeeCupsSold << ", " << "Cost: " << "$" << costOfCupOfCoffee << " per cup" << '\n'
+            << "Sales Amount = " << "$" << coffeeSalesAmount << endl;
+    }
+
+    inFile.close();
+    outFile.close();
+
+    system("pause");
+    return 0;
+    }
